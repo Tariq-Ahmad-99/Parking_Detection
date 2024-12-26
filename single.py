@@ -31,4 +31,4 @@ def make_prediction(image_path):
     return label
 
 # Test the function
-print(make_prediction("spot26.jpg"))
+print(make_prediction("assets/spot26.jpg"))
