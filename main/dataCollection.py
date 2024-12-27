@@ -1,19 +1,39 @@
 import cv2
+import pickle
+import os
 
-positionList = []  # List to store the coordinates of the clicked points
 width = 125
 height = 55
+
+save_dir = 'assets/cropped_img'
+
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+
+def save_cropped_img(img, pos, index):
+    cropped_img = img[pos[1]:pos[1]+height, pos[0]:pos[0]+width]
+    save_path = os.path.join(save_dir, f'roi_{index}.png')
+    cv2.imwrite(save_path, cropped_img)
+    print(f'saved cropped image: {save_path}')
+
+try:
+    with open('model/carposition.pkl', 'rb') as f:
+        positionList = pickle.load(f)
+except :
+    positionList = []
 
 def mouseclick(event, x, y, flags, params):
     # This function will handle mouse events. Add logic here if needed.
     if event == cv2.EVENT_LBUTTONDOWN:
         positionList.append((x,y))
+        save_cropped_img(cv2.resize(cv2.imread('assets/parkingimg.jpg'), (1280, 720)), (x, y), len(positionList))
     if event == cv2.EVENT_RBUTTONDOWN:
         for i, pos in enumerate(positionList):
             x1, y1 =pos
             if x1<x<x1+width and y1<y<y1+height:
                 positionList.pop(i)
-
+    with open('model/carposition.pkl', 'wb') as f:
+        pickle.dump(positionList, f)
 
 while True:
     # Load and resize the image
