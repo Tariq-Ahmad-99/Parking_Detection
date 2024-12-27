@@ -1,9 +1,19 @@
 import cv2
 
-def mouseclick(event, x, y, flags, param):
+positionList = []  # List to store the coordinates of the clicked points
+width = 125
+height = 55
+
+def mouseclick(event, x, y, flags, params):
     # This function will handle mouse events. Add logic here if needed.
     if event == cv2.EVENT_LBUTTONDOWN:
-        print(f"Mouse clicked at: ({x}, {y})")
+        positionList.append((x,y))
+    if event == cv2.EVENT_RBUTTONDOWN:
+        for i, pos in enumerate(positionList):
+            x1, y1 =pos
+            if x1<x<x1+width and y1<y<y1+height:
+                positionList.pop(i)
+
 
 while True:
     # Load and resize the image
@@ -14,14 +24,12 @@ while True:
     image = cv2.resize(image, (1280, 720))
     
     # Draw a rectangle on the image
-    cv2.rectangle(image, (85, 160), (215, 225), (255, 0, 255), 2)
+    for pos in positionList:
+        cv2.rectangle(image, pos, (pos[0]+width, pos[1]+height), (255, 0, 255), 2)
     
-    # Display the image in a window
+
     cv2.imshow("image", image)
-    
-    # Set mouse callback for the same window name
     cv2.setMouseCallback("image", mouseclick)
-    
     # Wait for the user to press 'q' to quit
     k = cv2.waitKey(1)
     if k == ord('q'):
