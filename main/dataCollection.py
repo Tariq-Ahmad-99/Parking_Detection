@@ -2,8 +2,8 @@ import cv2
 import pickle
 import os
 
-width = 125
-height = 55
+width = 130
+height = 65
 
 save_dir = 'assets/cropped_img'
 
@@ -20,13 +20,14 @@ try:
     with open('model/carposition.pkl', 'rb') as f:
         positionList = pickle.load(f)
 except :
+    print('there are an error in loading the pickle')
     positionList = []
 
 def mouseclick(event, x, y, flags, params):
     # This function will handle mouse events. Add logic here if needed.
     if event == cv2.EVENT_LBUTTONDOWN:
         positionList.append((x,y))
-        save_cropped_img(cv2.resize(cv2.imread('assets/parkingimg.jpg'), (1280, 720)), (x, y), len(positionList))
+        save_cropped_img(cv2.resize(cv2.imread('assets/car1.png'), (1280, 720)), (x, y), len(positionList))
     if event == cv2.EVENT_RBUTTONDOWN:
         for i, pos in enumerate(positionList):
             x1, y1 =pos
@@ -37,9 +38,9 @@ def mouseclick(event, x, y, flags, params):
 
 while True:
     # Load and resize the image
-    image = cv2.imread('assets/parkingimg.jpg')
+    image = cv2.imread('assets/car1.png')
     if image is None:
-        raise FileNotFoundError("Image file not found at 'assets/parkingimg.jpg'")
+        raise FileNotFoundError("Image file not found at 'assets/car1.png'")
     
     image = cv2.resize(image, (1280, 720))
     
