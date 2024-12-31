@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model # type: ignore
 model_final = load_model('model/model_final.h5')
 
 # Define the class dictionary
-class_dictionary = {0: 'no_car', 1: 'car'}
+class_dictionary = {0: 'Empty', 1: 'Full'}
 
 # Predictive system
 def make_prediction(image_path):
