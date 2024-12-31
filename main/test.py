@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model # type: ignore
 # Load the trained model
 
 model = load_model('model/model_final.h5')
-class_dictionary = {0: 'no_car', 1: 'car'}
+class_dictionary = {0: 'Empty', 1: 'Full'}
 
 video = cv2.VideoCapture("assets/car_test.mp4")
 
@@ -33,16 +33,26 @@ def checkingCarParking(img):
         x, y = pos
         inId = np.argmax(predictions[i])
         label = class_dictionary[inId]
-        if label == 'no_car':
-            color = (0,255,0)
+        if label == 'Empty':
+            color = (100, 220, 100)
             thickness = 2
             spaceCounter += 1
+            textColor = (0,0,0)
+            rectangleColor = (0,255,0)
         else:
-            color = (0,0,255)
+            color = (100,100,200)
             thickness = 2
+            textColor = (255,255,255)
+            rectangleColor = (0,0,255)
 
-        cv2.rectangle(image, pos, (pos[0]+width, pos[1]+height), (255, 0, 255), thickness)
-        cv2.putText(image, label, (x, y+height-3), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), thickness)
+        cv2.rectangle(image, pos, (pos[0]+width, pos[1]+height), rectangleColor, thickness)
+        font_scale = 0.5
+        text_thickness = 1
+        text_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, text_thickness)[0]
+        textX = x
+        textY = y + height-5
+        cv2.rectangle(img, (textX, textY - text_size[1] - 5), (textX + text_size[0]+6, textY + 2), color, -1)
+        cv2.putText(img, label, (textX + 3, textY - 3), cv2.FONT_HERSHEY_SIMPLEX, font_scale, textColor, text_thickness)
 
 while True:
     if video.get(cv2.CAP_PROP_POS_FRAMES) == video.get(cv2.CAP_PROP_FRAME_COUNT):
