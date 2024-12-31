@@ -53,6 +53,7 @@ def checkingCarParking(img):
         textY = y + height-5
         cv2.rectangle(img, (textX, textY - text_size[1] - 5), (textX + text_size[0]+6, textY + 2), color, -1)
         cv2.putText(img, label, (textX + 3, textY - 3), cv2.FONT_HERSHEY_SIMPLEX, font_scale, textColor, text_thickness)
+    cv2.putText(image, f'Space Counter: {spaceCounter}', (100,50), (cv2.FONT_HERSHEY_SIMPLEX), 1, textColor, 2)
 
 while True:
     if video.get(cv2.CAP_PROP_POS_FRAMES) == video.get(cv2.CAP_PROP_FRAME_COUNT):
