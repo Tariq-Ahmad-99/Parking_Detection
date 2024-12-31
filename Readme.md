@@ -1,4 +1,6 @@
-# Parking Space Detection
+# 🅿️arking Space Detection 🚗
+
+https://github.com/user-attachments/assets/efab3cb9-4d0f-49b5-9c56-11cc1d92c077
 
 This project is a Parking Space Detection system that uses a machine learning model to identify whether parking spaces are occupied or empty in real-time. It involves:
 - A trained CNN model based on the VGG16 architecture.
